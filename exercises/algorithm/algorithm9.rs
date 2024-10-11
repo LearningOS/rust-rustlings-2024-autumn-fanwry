@@ -2,7 +2,6 @@
 	heap
 	This question requires you to implement a binary heap function
 */
-// I AM NOT DONE
 
 use std::cmp::Ord;
 use std::default::Default;
@@ -38,6 +37,16 @@ where
 
     pub fn add(&mut self, value: T) {
         //TODO
+        self.count+=1;
+        self.items.push(value);
+        let mut pos:usize=self.items.len()-1;
+        let mut pre:usize=self.parent_idx(pos);
+        while (self.comparator)(&self.items[pos],&self.items[pre]) {
+            self.items.swap(pos,pre);
+            pos=self.parent_idx(pos);
+            pre=self.parent_idx(pos);
+        }
+
     }
 
     fn parent_idx(&self, idx: usize) -> usize {
@@ -79,13 +88,23 @@ where
 
 impl<T> Iterator for Heap<T>
 where
-    T: Default,
+    T: Default + std::cmp::PartialEq<i32>,
 {
     type Item = T;
 
     fn next(&mut self) -> Option<T> {
         //TODO
-		None
+        if self.is_empty(){
+            None
+        }else{
+            if self.items[0]==0{
+                Some(self.items.remove(1))
+            }else{
+                Some(self.items.remove(0))
+            }
+            
+        }
+		
     }
 }
 
